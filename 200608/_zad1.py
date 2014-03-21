@@ -14,7 +14,7 @@ def losuj_slowo():
 
     slowo = ''
     for _ in range(4):
-        slowo += random.choice("abcd")
+        slowo += random.choice("abcdef")
 
     return slowo
 
@@ -30,11 +30,21 @@ def sprawdz(temp, wzor):
     """
 
     slowo = ''
-    for j in range(4):
-        if temp[j] == wzor[j]:
-            slowo += wzor[j]
-        else:
-            slowo += '*'
+    wlsc_pozcyja = 0
+    nwlsc_pozcyja = 4
+    slowo = ''
+    for t, w in zip(temp, wzor):
+        if t == w:
+            wlsc_pozcyja += 1
+            nwlsc_pozcyja -= 1
+
+    slowo += "\nLiczba znakow na wlasciewej pozycji\t: "
+    slowo += str(wlsc_pozcyja)
+    slowo += "\n" 
+    slowo += "Liczba znakow na niewlasciwej pozycji\t: "
+    slowo += str(nwlsc_pozcyja)
+    slowo += "\n"
+   
     return slowo
 
 def sprawdz_string(sprawdzany):
@@ -47,13 +57,13 @@ def sprawdz_string(sprawdzany):
     zwraca False, w przeciwnym razie zwraca true.
     :rtype : bool
     """
-    zbior = ['a', 'b', 'c', 'd']
-    ok = True
+    zbior = ['a', 'b', 'c', 'd', 'e', 'f']
+    okej = True
     for k in range(4):
         if sprawdzany[k] not in zbior:
-            ok = False
+            okej = False
             break
-    return ok
+    return okej
 
 
 
@@ -79,7 +89,7 @@ if __name__ == '__main__':
             continue
 
     for i in range(RUNDY):
-        SZYFR = losuj_slowo()
+        
         print "Start runda :", (i + 1), "\n"
 
         while (PROBY < 8):
@@ -91,19 +101,19 @@ if __name__ == '__main__':
             print s
             z = "****"
 
-            if s.__len__() < 4:
+            if len(s) < 4:
                 print "Wprowadzony szyfr jest zbyt krotki !\n"
                 continue
 
-            if s.__len__() > 4:
+            if len(s) > 4:
                 print "Wprowadzony szyfr jest zbyt dlugi !\n"
                 continue
             
 	    if sprawdz_string(s) == False:
-                print "Wprowadzony szyf zawiera znaki inne niz abcd!\n"
+                print "Wprowadzony szyf zawiera znaki inne niz abcdef!\n"
                 continue
 
-            if s.islower() == 0:
+            if s.islower():
                 print "Nie zgadza sie wymagany typ znakow !\n"
                 continue
 
