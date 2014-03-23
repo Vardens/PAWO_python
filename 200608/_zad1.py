@@ -5,7 +5,6 @@ __author__ = 'Piotr Chmiel'
 
 
 def losuj_slowo():
-
     """
     Funkcja losuje 4 znaki, sposrod zbioru malych liter.
     Zwraca string zlozony z wylosowanych znakow.
@@ -20,7 +19,6 @@ def losuj_slowo():
 
 
 def sprawdz(temp, wzor):
-
     """
     Funkcja sluzy do oceny proby gracza.
     Porownywane sa odpowiadajace litery slowa.
@@ -32,23 +30,28 @@ def sprawdz(temp, wzor):
     slowo = ''
     wlsc_pozcyja = 0
     nwlsc_pozcyja = 4
+    w_kluczu = 0
     slowo = ''
     for t, w in zip(temp, wzor):
         if t == w:
             wlsc_pozcyja += 1
             nwlsc_pozcyja -= 1
+        if t in wzor:
+            w_kluczu += 1
 
-    slowo += "\nLiczba znakow na wlasciewej pozycji\t: "
+    slowo += "\nLiczba znakow na wlasciewej pozycji\t\t\t\t: "
     slowo += str(wlsc_pozcyja)
-    slowo += "\n" 
-    slowo += "Liczba znakow na niewlasciwej pozycji\t: "
+    slowo += "\n"
+    slowo += "Liczba znakow na niewlasciwej pozycji\t\t\t\t: "
     slowo += str(nwlsc_pozcyja)
     slowo += "\n"
-   
+    slowo += "Liczba podanych znakow, ktore zawieraja sie sie w szyfrze\t: "
+    slowo += str(w_kluczu)
+    slowo += "\n"
     return slowo
 
-def sprawdz_string(sprawdzany):
 
+def sprawdz_string(sprawdzany):
     """
     Funkcja sluzy sprawdzenia czy w slowie znajduja sie litery 'abcd'.
     Litery abcd zawarte sa w liscie.
@@ -66,7 +69,6 @@ def sprawdz_string(sprawdzany):
     return okej
 
 
-
 if __name__ == '__main__':
 
 
@@ -77,7 +79,7 @@ if __name__ == '__main__':
     RUNDY = 0
     AKTUALNE = False
 
-    print "Witamy w grze Mastermind, gra polega na ogadywaniu szyfru \n"
+    print "\nWitamy w grze Mastermind, gra polega na ogadywaniu szyfru \n"
 
     while 1:
         print "Podaj ile rund chcesz zagrac"
@@ -89,11 +91,10 @@ if __name__ == '__main__':
             continue
 
     for i in range(RUNDY):
-        
-        print "Start runda :", (i + 1), "\n"
 
+        print "Start runda :", (i + 1), "\n"
+        SZYFR = losuj_slowo()
         while (PROBY < 8):
-            print SZYFR
             print "Runda:", (i + 1)
             print "Proba:", PROBY
             print "Podaj swoj typ (4 znaki, male litery)"
@@ -108,12 +109,12 @@ if __name__ == '__main__':
             if len(s) > 4:
                 print "Wprowadzony szyfr jest zbyt dlugi !\n"
                 continue
-            
-	    if sprawdz_string(s) == False:
+
+            if sprawdz_string(s) == False:
                 print "Wprowadzony szyf zawiera znaki inne niz abcdef!\n"
                 continue
 
-            if s.islower():
+            if s.isupper():
                 print "Nie zgadza sie wymagany typ znakow !\n"
                 continue
 
@@ -130,7 +131,8 @@ if __name__ == '__main__':
         if AKTUALNE == False:
             print "W tej rundzie nie udalo Ci sie odgadnac szyfru, oto on: ", SZYFR
 
-    PUNKTY += PROBY
+        PUNKTY += PROBY
+        PROBY = 0
 
 print "Statystyki gracza: \n"
 
